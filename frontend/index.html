@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="StayWise — AI-powered customer churn prediction for telecom businesses. Know who's leaving before they go." />
+  <title>StayWise — Churn Prediction</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ========== HERO SECTION ========== -->
+  <section class="hero">
+
+    <!-- Grain contour canvas background -->
+    <canvas class="hero-grain-canvas" id="hero-grain" aria-hidden="true"></canvas>
+
+    <!-- Vignette overlay -->
+    <div class="hero-vignette" id="hero-vignette" aria-hidden="true"></div>
+
+    <!-- Top bar — brand only, no nav -->
+    <div class="top-bar">
+      <div class="brand-mark">
+        <div class="brand-circle">
+          <span>S</span>
+        </div>
+        <span class="brand-label">STAYWISE</span>
+      </div>
+      <div class="top-bar-right">
+        <div class="model-stat">
+          <span class="stat-dot"></span>
+          <span>Model Active</span>
+        </div>
+        <div class="model-stat">
+          <span>ROC-AUC</span>
+          <span class="stat-highlight">94.2%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero content -->
+    <div class="hero-body">
+
+      <!-- Left: Giant title -->
+      <div class="hero-left">
+        <div class="hero-title-wrap">
+          <h1 class="hero-title" id="hero-title-pressure">
+            <span class="title-line" id="tp-line-1" data-text="STAY"></span>
+            <span class="title-line" id="tp-line-2" data-text="WISE"></span>
+          </h1>
+          <div class="title-underline"></div>
+        </div>
+
+        <!-- Feature bullets -->
+        <div class="hero-features">
+          <div class="feature-col">
+            <div class="feature-item">
+              <span class="bullet"></span>
+              <span>CONTRACT ANALYSIS</span>
+            </div>
+            <div class="feature-item">
+              <span class="bullet"></span>
+              <span>TENURE SCORING</span>
+            </div>
+            <div class="feature-item">
+              <span class="bullet"></span>
+              <span>BILLING SIGNALS</span>
+            </div>
+          </div>
+          <div class="feature-col">
+            <div class="feature-item">
+              <span class="bullet"></span>
+              <span>PAYMENT RISK</span>
+            </div>
+            <div class="feature-item">
+              <span class="bullet"></span>
+              <span>SERVICE USAGE</span>
+            </div>
+            <div class="feature-item">
+              <span class="bullet"></span>
+              <span>CHURN FORECAST</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Tagline + description + CTA -->
+      <div class="hero-right">
+        <div class="hero-tagline">
+          <p>YOUR</p>
+          <p>CHURN</p>
+          <p>PREDICTOR</p>
+        </div>
+
+        <p class="hero-desc">
+          StayWise uses logistic regression trained on 7,043 telecom customer records to identify subscribers at risk of leaving — before they do.
+        </p>
+
+        <a href="predict.html" class="cta-btn" id="hero-predict-btn">
+          PREDICT NOW
+        </a>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="hero-bottom-bar">
+      <span class="bottom-bar-text">LOGISTIC REGRESSION · SCIKIT-LEARN · PYTHON · TRAINED 2026</span>
+      <span class="bottom-bar-separator">·</span>
+      <span class="bottom-bar-text">26.5% AVERAGE CHURN RATE IN DATASET</span>
+    </div>
+
+  </section>
+
+  <!-- ========== WHAT IT DOES SECTION ========== -->
+  <section class="what-section">
+    <div class="what-inner">
+
+      <div class="what-header">
+        <div class="section-tag-line">
+          <div class="tag-dash"></div>
+          <span>HOW IT WORKS</span>
+        </div>
+        <h2 class="what-title">
+          19 Features.<br />One <em class="accent-text">Prediction.</em>
+        </h2>
+      </div>
+
+      <div class="what-grid">
+        <div class="what-card" id="card-input">
+          <div class="card-number">01</div>
+          <h3>INPUT CUSTOMER DATA</h3>
+          <p>Enter 19 customer attributes — tenure, contract type, internet service, billing method, and add-on services.</p>
+        </div>
+        <div class="what-card" id="card-process">
+          <div class="card-number">02</div>
+          <h3>AI PROCESSING</h3>
+          <p>Our pipeline scales numerical features and encodes categorical variables using the same preprocessing used during model training.</p>
+        </div>
+        <div class="what-card" id="card-score">
+          <div class="card-number">03</div>
+          <h3>CHURN SCORE</h3>
+          <p>A probability score from 0–100% is generated. Customers above the 30% threshold are flagged as high churn risk.</p>
+        </div>
+        <div class="what-card" id="card-action">
+          <div class="card-number">04</div>
+          <h3>RETENTION ACTION</h3>
+          <p>Receive targeted retention recommendations and revenue-at-risk estimates to guide your response.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== THE PROBLEM SECTION ========== -->
+  <section class="problem-section">
+    <div class="problem-inner">
+
+      <!-- Left col: text + stats -->
+      <div class="problem-left">
+        <div class="section-tag-line">
+          <div class="tag-dash"></div>
+          <span>THE PROBLEM</span>
+        </div>
+        <h2 align= 'center' class="problem-title">
+          CUSTOMER CHURN IS MORE<br />THAN <em class="accent-text">A LOST CUSTOMER.</em>
+        </h2>
+        <p class="problem-desc">
+          When customers leave, businesses lose recurring revenue and opportunities to build long-term relationships. StayWise uses machine learning to identify customers who may be at risk of leaving, giving businesses an opportunity to act before they do.
+        </p>
+        <div class="problem-stats">
+          <div class="prob-stat">
+            <div class="prob-stat-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="1" width="26" height="26" rx="4" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M7 20L11 14L15 17L21 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div>
+              <div class="prob-stat-num">26.5%</div>
+              <div class="prob-stat-label">AVERAGE CHURN RATE<br />IN THE DATASET</div>
+            </div>
+          </div>
+          <div class="prob-stat">
+            <div class="prob-stat-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="1" width="26" height="26" rx="4" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="6" y="16" width="4" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="12" y="11" width="4" height="11" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="18" y="7" width="4" height="15" rx="1" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <div>
+              <div class="prob-stat-num">42.7%</div>
+              <div class="prob-stat-label">CHURN RATE FOR<br />MONTH-TO-MONTH CONTRACTS</div>
+            </div>
+          </div>
+          <div class="prob-stat">
+            <div class="prob-stat-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="14" cy="14" r="13" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="14" cy="11" r="4" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M5 23c0-4.418 4.03-8 9-8s9 3.582 9 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <div class="prob-stat-num">45.3%</div>
+              <div class="prob-stat-label">CHURN RATE FOR<br />ELECTRONIC CHECK PAYMENTS</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right col: bar chart visualisation -->
+      <div class="problem-right" aria-hidden="true">
+        <div class="prob-chart">
+          <!-- Floating consequence labels -->
+          <div class="prob-label prob-label-1">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            <div>
+              <span class="prob-label-title">RECURRING</span>
+              <span class="prob-label-title">REVENUE LOSS</span>
+            </div>
+          </div>
+          <div class="prob-label prob-label-2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+            <div>
+              <span class="prob-label-title">HIGHER</span>
+              <span class="prob-label-title">ACQUISITION COSTS</span>
+            </div>
+          </div>
+          <div class="prob-label prob-label-3">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            <div>
+              <span class="prob-label-title">WEAKER</span>
+              <span class="prob-label-title">CUSTOMER LOYALTY</span>
+            </div>
+          </div>
+
+          <!-- Bars -->
+          <div class="prob-bars">
+            <div class="prob-bar-wrap"><div class="prob-bar" style="--bh:82%"></div></div>
+            <div class="prob-bar-wrap"><div class="prob-bar" style="--bh:74%"></div></div>
+            <div class="prob-bar-wrap"><div class="prob-bar" style="--bh:66%"></div></div>
+            <div class="prob-bar-wrap"><div class="prob-bar" style="--bh:58%"></div></div>
+            <div class="prob-bar-wrap"><div class="prob-bar" style="--bh:48%"></div></div>
+            <div class="prob-bar-wrap"><div class="prob-bar" style="--bh:38%"></div></div>
+            <div class="prob-bar-wrap"><div class="prob-bar" style="--bh:28%"></div></div>
+          </div>
+
+          <!-- Orange declining dots path -->
+          <svg class="prob-dots-svg" viewBox="0 0 400 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="30,30 90,55 150,85 210,110 270,140 330,162 385,185"
+              fill="none" stroke="#e8732b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+              stroke-dasharray="5 4" opacity="0.6"/>
+            <circle cx="30"  cy="30"  r="5" fill="#e8732b"/>
+            <circle cx="90"  cy="55"  r="5" fill="#e8732b"/>
+            <circle cx="150" cy="85"  r="5" fill="#e8732b"/>
+            <circle cx="210" cy="110" r="5" fill="#e8732b"/>
+            <circle cx="270" cy="140" r="5" fill="#e8732b"/>
+            <circle cx="330" cy="162" r="5" fill="#e8732b"/>
+            <circle cx="385" cy="185" r="5" fill="#e8732b"/>
+            <!-- Arrow at end -->
+            <polyline points="375,178 385,185 378,195"
+              fill="none" stroke="#e8732b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== WHO BENEFITS SECTION ========== -->
+  <section class="benefits-section">
+    <div class="benefits-inner">
+
+      <div class="benefits-header">
+        <div class="section-tag-line">
+          <div class="tag-dash"></div>
+          <span>WHO BENEFITS</span>
+        </div>
+        <h2 class="benefits-title">BUILT FOR SMARTER <em class="accent-text">RETENTION DECISIONS.</em></h2>
+        <p class="benefits-subtitle">
+          StayWise supports key teams with data-driven predictions and insights. It helps organizations understand churn risk and take informed actions, but it does not independently guarantee that customers will stay.
+        </p>
+      </div>
+
+      <div class="benefits-grid">
+
+        <div class="benefit-card" id="card-managers">
+          <div class="benefit-card-top">
+            <div class="benefit-icon-wrap" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1.5" y="1.5" width="29" height="29" rx="5" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="7" y="19" width="4" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="14" y="13" width="4" height="13" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="21" y="8"  width="4" height="18" rx="1" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <span class="benefit-num">01</span>
+          </div>
+          <h3>BUSINESS MANAGERS</h3>
+          <p>Understand overall churn exposure and identify segments that need attention.</p>
+        </div>
+
+        <div class="benefit-card" id="card-retention">
+          <div class="benefit-card-top">
+            <div class="benefit-icon-wrap" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="14.5" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="16" cy="16" r="6"    stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="16" cy="16" r="2"    fill="currentColor"/>
+                <line x1="16" y1="1.5" x2="16" y2="7"  stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="16" y1="25"  x2="16" y2="30.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="1.5" y1="16" x2="7"   y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="25"  y1="16" x2="30.5" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <span class="benefit-num">02</span>
+          </div>
+          <h3>CUSTOMER-RETENTION TEAMS</h3>
+          <p>Prioritize high-risk customers for outreach and plan effective retention strategies.</p>
+        </div>
+
+        <div class="benefit-card" id="card-marketing">
+          <div class="benefit-card-top">
+            <div class="benefit-icon-wrap" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M28 6L18 16M28 6H20M28 6V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13 7H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="8"  y1="16" x2="16" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="8"  y1="20" x2="13" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <span class="benefit-num">03</span>
+          </div>
+          <h3>MARKETING TEAMS</h3>
+          <p>Design targeted retention campaigns based on customer behaviour and risk segments.</p>
+        </div>
+
+        <div class="benefit-card" id="card-analysts">
+          <div class="benefit-card-top">
+            <div class="benefit-icon-wrap" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1.5" y="1.5" width="29" height="29" rx="5" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M8 22l5-6 4 3 5-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="23" cy="11" r="2.5" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <span class="benefit-num">04</span>
+          </div>
+          <h3>DATA ANALYSTS</h3>
+          <p>Explore customer patterns, analyze model performance and generate actionable insights.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA SECTION ========== -->
+  <section class="final-cta">
+    <div class="cta-rings" aria-hidden="true">
+      <div class="cta-ring cta-ring-1"></div>
+      <div class="cta-ring cta-ring-2"></div>
+    </div>
+    <div class="cta-inner">
+      <div class="cta-label">READY?</div>
+      <h2 class="cta-title">START YOUR<br />PREDICTION</h2>
+      <p class="cta-sub">Enter any customer's details and get an instant churn risk assessment powered by our logistic regression model.</p>
+      <a href="predict.html" class="cta-btn cta-btn-large" id="final-cta-btn">PREDICT NOW</a>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="brand-circle brand-circle-sm"><span>S</span></div>
+        <span class="footer-brand-name">STAYWISE</span>
+      </div>
+      <p class="footer-desc">
+        AI-powered churn prediction · Trained on Telco Customer Churn Dataset · Logistic Regression · ROC-AUC 94.2%
+      </p>
+      <div class="footer-links-row">
+        <a href="predict.html" class="footer-link" id="footer-predict">Predictor</a>
+        <span class="footer-sep">·</span>
+        <a href="#" class="footer-link" id="footer-methodology">Methodology</a>
+        <span class="footer-sep">·</span>
+        <a href="https://github.com" class="footer-link" id="footer-github" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <p class="footer-copy">© 2026 StayWise · Built with Python, Scikit-Learn &amp; ❤️</p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script src="text-pressure.js"></script>
+  <script src="hero-grain.js"></script>
+</body>
+</html>

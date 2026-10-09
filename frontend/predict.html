@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="StayWise Predictor — Instant customer churn risk scoring powered by logistic regression." />
+  <title>Churn Predictor — StayWise</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="predict.css" />
+</head>
+<body>
+
+<div class="predict-page">
+
+  <!-- Slim top bar -->
+  <div class="predict-topbar">
+    <a href="index.html" class="predict-brand" id="predict-logo">
+      <div class="brand-circle brand-circle-sm"><span>S</span></div>
+      <span class="predict-brand-name">StayWise</span>
+    </a>
+    <div class="predict-topbar-right">
+      <div class="topbar-pill">
+        <span class="stat-dot"></span>
+        <span>Model Active · 94.2% AUC</span>
+      </div>
+      <a href="index.html" class="topbar-back-btn" id="back-home">
+        ← Home
+      </a>
+    </div>
+  </div>
+
+  <!-- Main: form + result -->
+  <div class="predict-main">
+
+    <!-- ===== LEFT: FORM ===== -->
+    <div class="form-panel">
+      <div class="form-panel-header">
+        <div class="form-page-tag">
+          <div class="form-page-tag-line"></div>
+          Customer Risk Assessment
+        </div>
+        <h1 class="form-page-title">
+          CHURN<br />PREDICTOR
+        </h1>
+        <p class="form-page-sub">
+          Enter the customer's details below — all 19 features match the fields used to train our logistic regression model on 7,043 telecom records.
+        </p>
+      </div>
+
+      <form class="predict-form" id="predict-form" novalidate>
+
+        <!-- Block 1: Personal -->
+        <div class="form-block">
+          <div class="form-block-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Personal Details
+          </div>
+          <div class="form-block-body">
+            <div class="form-group full-width">
+              <label class="form-label" for="customer-name">Customer Name</label>
+              <input class="form-input" type="text" id="customer-name" name="customer_name" placeholder="e.g. Jane Smith" autocomplete="off" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="gender">Gender</label>
+              <select class="form-select" id="gender" name="gender">
+                <option value="">Select...</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="senior">Senior Citizen</label>
+              <select class="form-select" id="senior" name="senior_citizen">
+                <option value="">Select...</option>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="partner">Has Partner</label>
+              <select class="form-select" id="partner" name="partner">
+                <option value="">Select...</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="dependents">Has Dependents</label>
+              <select class="form-select" id="dependents" name="dependents">
+                <option value="">Select...</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Block 2: Service -->
+        <div class="form-block">
+          <div class="form-block-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Service Details
+          </div>
+          <div class="form-block-body">
+            <div class="form-group">
+              <label class="form-label" for="tenure">Tenure (Months)</label>
+              <input class="form-input" type="number" id="tenure" name="tenure_months" placeholder="e.g. 12" min="0" max="120" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="internet">Internet Service</label>
+              <select class="form-select" id="internet" name="internet_service">
+                <option value="">Select...</option>
+                <option value="DSL">DSL</option>
+                <option value="Fiber optic">Fiber Optic</option>
+                <option value="No">No Service</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="phone">Phone Service</label>
+              <select class="form-select" id="phone" name="phone_service">
+                <option value="">Select...</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="multilines">Multiple Lines</label>
+              <select class="form-select" id="multilines" name="multiple_lines">
+                <option value="">Select...</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="No phone service">No Phone Service</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-block-body cols-3">
+            <div class="form-group">
+              <label class="form-label" for="security">Online Security</label>
+              <select class="form-select" id="security" name="online_security">
+                <option value="">Select...</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="No internet service">No Internet</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="backup">Online Backup</label>
+              <select class="form-select" id="backup" name="online_backup">
+                <option value="">Select...</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="No internet service">No Internet</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="device">Device Protection</label>
+              <select class="form-select" id="device" name="device_protection">
+                <option value="">Select...</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="No internet service">No Internet</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="techsupport">Tech Support</label>
+              <select class="form-select" id="techsupport" name="tech_support">
+                <option value="">Select...</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="No internet service">No Internet</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="tv">Streaming TV</label>
+              <select class="form-select" id="tv" name="streaming_tv">
+                <option value="">Select...</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="No internet service">No Internet</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="movies">Streaming Movies</label>
+              <select class="form-select" id="movies" name="streaming_movies">
+                <option value="">Select...</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="No internet service">No Internet</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Block 3: Billing -->
+        <div class="form-block">
+          <div class="form-block-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            Billing &amp; Contract
+          </div>
+          <div class="form-block-body">
+            <div class="form-group">
+              <label class="form-label" for="contract">Contract Type</label>
+              <select class="form-select" id="contract" name="contract">
+                <option value="">Select...</option>
+                <option value="Month-to-month">Month-to-Month</option>
+                <option value="One year">One Year</option>
+                <option value="Two year">Two Year</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="billing">Paperless Billing</label>
+              <select class="form-select" id="billing" name="paperless_billing">
+                <option value="">Select...</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+            <div class="form-group full-width">
+              <label class="form-label" for="payment">Payment Method</label>
+              <select class="form-select" id="payment" name="payment_method">
+                <option value="">Select...</option>
+                <option value="Electronic check">Electronic Check</option>
+                <option value="Mailed check">Mailed Check</option>
+                <option value="Bank transfer (automatic)">Bank Transfer (Automatic)</option>
+                <option value="Credit card (automatic)">Credit Card (Automatic)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="monthly">Monthly Charges ($)</label>
+              <input class="form-input" type="number" id="monthly" name="monthly_charges" placeholder="e.g. 79.85" min="0" step="0.01" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="total">Total Charges ($)</label>
+              <input class="form-input" type="number" id="total" name="total_charges" placeholder="Auto-calc or enter" min="0" step="0.01" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <div class="form-action-left">
+            <button type="button" class="btn-ghost-navy" id="fill-demo-btn">
+              ⚡ Load Sample
+            </button>
+            <button type="button" class="btn-ghost-navy" id="reset-btn">
+              ↺ Reset
+            </button>
+          </div>
+          <button type="submit" class="btn-predict" id="predict-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            PREDICT RISK
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- ===== RIGHT: RESULT ===== -->
+    <div class="result-panel" id="result-panel">
+
+      <!-- Idle -->
+      <div class="r-idle" id="r-idle">
+        <!-- API error banner (hidden by default) -->
+        <div class="api-error-banner" id="api-error-banner" style="display:none"></div>
+        <div class="idle-icon-wrap">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <p class="idle-h">Awaiting Input</p>
+        <p class="idle-p">Complete the form and click "Predict Risk" to see the churn probability score.</p>
+
+        <div class="sample-section">
+          <div class="sample-section-label">Quick samples</div>
+          <button class="sample-card" id="sample-high">
+            <span class="sample-pill pill-high">HIGH</span>
+            Month-to-month · Fiber · Electronic Check
+          </button>
+          <button class="sample-card" id="sample-low">
+            <span class="sample-pill pill-low">LOW</span>
+            Two-year · DSL · Auto Payment · 60mo
+          </button>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div class="r-loading" id="r-loading" style="display:none">
+        <div class="spinner"></div>
+        <p class="loading-h">Analyzing...</p>
+        <p class="loading-p">Running 19 features through logistic regression model</p>
+      </div>
+
+      <!-- Output -->
+      <div class="r-output" id="r-output" style="display:none">
+
+        <div class="r-output-header">
+          <span class="r-output-tag">Prediction Result</span>
+          <div class="r-output-actions">
+            <button class="btn-pdf" id="btn-pdf" title="Download PDF Report">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              PDF Report
+            </button>
+            <button class="r-new-btn" id="r-new-btn">New →</button>
+          </div>
+        </div>
+
+        <!-- Gauge -->
+        <div class="gauge-container">
+          <div class="gauge-wrap">
+            <svg width="220" height="130" viewBox="0 0 220 130" class="gauge-svg" id="gauge-svg">
+              <defs>
+                <linearGradient id="gaugeColor" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#4ade80"/>
+                  <stop offset="45%" stop-color="#e8732b"/>
+                  <stop offset="100%" stop-color="#ef4444"/>
+                </linearGradient>
+              </defs>
+              <!-- Track -->
+              <path d="M20,110 A90,90 0 0,1 200,110" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="18" stroke-linecap="round"/>
+              <!-- Active fill -->
+              <path id="gauge-fill" d="M20,110 A90,90 0 0,1 200,110" fill="none" stroke="url(#gaugeColor)" stroke-width="18" stroke-linecap="round"
+                stroke-dasharray="283" stroke-dashoffset="283"
+                style="transition: stroke-dashoffset 1.4s cubic-bezier(0.4,0,0.2,1)"/>
+              <!-- Needle -->
+              <g id="gauge-needle" transform="rotate(-90, 110, 110)">
+                <line x1="110" y1="110" x2="110" y2="32" stroke="rgba(255,255,255,0.85)" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="110" cy="110" r="5" fill="white"/>
+              </g>
+            </svg>
+            <div id="gauge-pct" class="gauge-pct-label">--</div>
+          </div>
+          <div class="gauge-scale">
+            <span style="color:#4ade80">LOW</span>
+            <span style="color:var(--orange)">MED</span>
+            <span style="color:#ef4444">HIGH</span>
+          </div>
+        </div>
+
+        <!-- Verdict -->
+        <div class="verdict-box" id="verdict-box">
+          <div class="verdict-emoji" id="verdict-emoji">⚠️</div>
+          <div>
+            <div class="verdict-label" id="verdict-label">HIGH CHURN RISK</div>
+            <div class="verdict-sub" id="verdict-sub">Immediate intervention recommended</div>
+          </div>
+        </div>
+
+        <!-- ── XAI: Why this prediction ── -->
+        <div class="xai-section" id="xai-section">
+
+          <!-- Risk Factors -->
+          <div class="xai-group" id="xai-risk-group">
+            <div class="xai-group-header xai-header-risk">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+              WHY THIS CUSTOMER IS AT RISK
+            </div>
+            <div class="xai-bars" id="xai-risk-bars"></div>
+          </div>
+
+          <!-- Protective Factors -->
+          <div class="xai-group" id="xai-prot-group">
+            <div class="xai-group-header xai-header-prot">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              PROTECTIVE FACTORS
+            </div>
+            <div class="xai-bars" id="xai-prot-bars"></div>
+          </div>
+
+          <div class="xai-footnote">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Powered by SHAP — values show each feature's contribution to the churn probability.
+          </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="r-block" id="rec-block">
+          <div class="r-block-title">Recommended Actions</div>
+          <div class="rec-list" id="rec-list"></div>
+        </div>
+
+        <!-- Model info footer -->
+        <div class="model-info-footer">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Logistic Regression · Threshold: 20% · ROC-AUC: 94.2% · n=7,043
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="main.js"></script>
+<script src="predict.js"></script>
+</body>
+</html>
